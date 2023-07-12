@@ -1,3 +1,4 @@
+# This file only contains the SQLAlchemy models and not the Pydantic models which are only in the schemas.py
 # importing Base that will allow us to create each of our database models or classes (ORM models)
 from .database import Base
 
