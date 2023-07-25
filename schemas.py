@@ -86,6 +86,9 @@ class UserBase(BaseModel):
     email: str
 
 
+# The password field is only required on creation but is not stored in the DB.
+# This field is required, but is converted to it's hashed form which is what gets saved in the user record
+# This field is also not exposed to the user from the API
 class UserCreate(UserBase):
     password: str
 
