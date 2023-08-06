@@ -41,10 +41,13 @@ class Item(ItemBase):
 
     # With this, the Pydantic model is compatible with ORM's and
     # one can declare it in the 'response_model' argument in one's *path operations*
-    # And one will be able to return a database model and it will read the data from it.
+    # And one will be able to return a database model, and it will read the data from it.
     # Bypasses lazy loading for SQLAlchemy
     class Config:
-        orm_mode = True
+        # orm_mode = True
+        #
+        # CHANGES TO *ORM_MODE* due to a change to Valid config keys in V2 TO *FROM_ATTRIBUTES*
+        from_attributes = True
 
 
 # Pydantic models for the Blog database model
@@ -75,10 +78,13 @@ class Blog(BlogBase):
 
     # With this, the Pydantic model is compatible with ORM's and
     # one can declare it in the 'response_model' argument in one's *path operations*
-    # And one will be able to return a database model and it will read the data from it.
+    # And one will be able to return a database model, and it will read the data from it.
     # Bypasses lazy loading for SQLAlchemy
     class Config:
-        orm_mode = True
+        # orm_mode = True
+        #
+        # CHANGES TO *ORM_MODE* due to a change to Valid config keys in V2 TO *FROM_ATTRIBUTES*
+        from_attributes = True
 
 
 # Pydantic models for the User database model
@@ -113,7 +119,10 @@ class User(UserBase):
 
     # With this, the Pydantic model is compatible with ORM's and
     # one can declare it in the 'response_model' argument in one's *path operations*
-    # And one will be able to return a database model and it will read the data from it.
+    # And one will be able to return a database model, and it will read the data from it.
     # Bypasses lazy loading for SQLAlchemy
     class Config:
-        orm_mode = True
+        # orm_mode = True
+        #
+        # CHANGES TO *ORM_MODE* due to a change to Valid config keys in V2 TO *FROM_ATTRIBUTES*
+        from_attributes = True
