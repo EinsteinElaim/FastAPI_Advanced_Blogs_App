@@ -1,9 +1,11 @@
-# Importing Session to allow us declare the type of 'db' parameters and have better type checks and
+# Importing Session to allow us to declare the type of 'db' parameters and have better type checks and
 # completion in our functions
 from sqlalchemy.orm import Session
 
 # Importing the 'models' (SQLAlchemy models) and 'schemas' (Pydantic models)
-from . import models, schemas
+# from . import models, schemas
+import models as models
+import schemas as schemas
 
 
 # CRUD
@@ -34,6 +36,11 @@ def get_item_by_id(db: Session, item_id: int):
     return db.query(models.Item).filter(models.Item.id == item_id).first()
 
 
+# Read a single Item by Title before adding new Item using create/post Item route in main py file
+def get_item_by_tite(db: Session, item_title: str):
+    return db.query(models.Item).filter(models.Item.title == item_title).first()
+
+
 # Read multiple items
 def get_all_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Item).offset(skip).limit(limit).all()
@@ -42,6 +49,11 @@ def get_all_items(db: Session, skip: int = 0, limit: int = 100):
 # Read a single blog by ID
 def get_blog_by_id(db: Session, blog_id: int):
     return db.query(models.Blog).filter(models.Blog.id == blog_id).first()
+
+
+# Find blog by title to check if blog title exists before new blog creation
+def get_blog_by_title(db: Session, blog_title: str):
+    return db.query(models.Blog).filter(models.Blog.title == blog_title).first()
 
 
 # Read multiple blog posts
@@ -57,7 +69,7 @@ def get_all_blogs(db: Session, skip: int = 0, limit: int = 100):
 # and also requires their own Session since they are a separate request
 
 # Create a User:
-# A user creation utility function needs a Session of it's own to access the db,
+# A user creation utility function needs a Session of its own to access the db,
 # and also needs to access the User's Pydantic model/schema for creation guideline that is UserCreate class
 def create_user(db: Session, user: schemas.UserCreate):
     # This is where we configure the temporary but mandatory password field/pre-process it
@@ -65,7 +77,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     fake_hashed_password = user.password + "notreallyhashed"
     #
     # We first create the SQLAlchemy model instance with our user data
-    # We also load the now processed password field and assign it's result to the hashed_password field
+    # We also load the now processed password field and assign its result to the hashed_password field
     # that actually makes it to the database/user account
     #
     db_user = models.User(email=user.email, hashed_password=fake_hashed_password)
@@ -75,7 +87,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     # The schemas/Pydantic models only guides the data input and output
     #
     db.add(db_user)
-    # Committing the changes to the database (so as to save the user record)
+    # Committing the changes to the database (to save the user record)
     db.commit()
     #
     # Refreshing our created instance 'db_user' so it contains any new data from the database,

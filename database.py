@@ -16,7 +16,7 @@ engine = create_engine(
 )
 
 # creating a SessionLocal class which each instance of it is a database session.
-# So, the once we create an instance of the SessionLocal class,
+# So, once we create an instance of the SessionLocal class,
 # that will be the actual database session and not the class itself
 # we name it SessionLocal to distinguish it from the Session we are importing from SQLAlchemy which we will use later
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

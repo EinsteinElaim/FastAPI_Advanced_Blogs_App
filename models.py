@@ -1,10 +1,12 @@
 # This file only contains the SQLAlchemy models and not the Pydantic models which are only in the schemas.py
 # importing Base that will allow us to create each of our database models or classes (ORM models)
-from .database import Base
+# from .database import Base
+from database import Base
 
 # Importing sqlalchemy datatypes to be used and relationship for relevant tables
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
+
 
 # Creating classes that inherit from the imported Base class that are SQLAlchemy models
 class User(Base):
@@ -40,5 +42,3 @@ class Blog(Base):
     post_owner_id = Column(Integer, ForeignKey("users.id"))
 
     blog_owner = relationship("User", back_populates="blogs")
-
-
