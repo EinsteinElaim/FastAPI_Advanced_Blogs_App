@@ -1,6 +1,8 @@
 # Importing parts to be used to create our app, routes, route, error handling and our SQLAlchemy Session
 # to define SessionLocal type in our DEPENDENCY
 from fastapi import FastAPI, HTTPException, Depends
+# Converting our get responses to JSON objects
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 # Now, we integrate and use all partd we created before
@@ -79,7 +81,10 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 @app.get("/users/", response_model=list[schemas.User])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_all_users(db=db, skip=skip, limit=limit)
-    return users
+    print(type(users))
+    users_json = jsonable_encoder(users)
+    # return users
+    return users_json
 
 
 @app.get("/users/{user_id}", response_model=schemas.User)
@@ -87,6 +92,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_id(user_id=user_id, db=db)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found!")
+    print(type(db_user))
     return db_user
 
 
@@ -95,6 +101,7 @@ def read_user(user_email: str, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db=db, user_email=user_email)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found!")
+    print(type(db_user))
     return db_user
 
 
@@ -134,4 +141,5 @@ def read_blogs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     db_blog = crud.get_all_blogs(skip=skip, limit=limit, db=db)
     if db_blog is None:
         raise HTTPException(status_code=404, detail="No blogs found! Create new blogs to view them!")
+    print(type(db_blog))
     return db_blog
